@@ -21,10 +21,7 @@ class MeetingWidget extends StatelessWidget {
     ];
 
     List colors = [
-      // Color(0xffD9FFF8),
       Color(0xffFFFDF7),
-      // Color(0xffD9FFF8),
-      // Color(0xffD9FFF8),
     ];
     final random = Random();
     final randomColor = colors[random.nextInt(colors.length)];
