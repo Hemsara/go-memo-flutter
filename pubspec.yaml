@@ -18,6 +18,9 @@ dependencies:
   swipe_cards: ^2.0.0+1
   flutter_card_swiper: ^7.0.1
   gap: ^3.0.1
+  flutter_secure_storage: ^9.2.2
+  http: ^1.2.2
+  fluttertoast: ^8.2.5
 
 dev_dependencies:
   flutter_test:
