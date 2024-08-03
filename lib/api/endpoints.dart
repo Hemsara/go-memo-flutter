@@ -15,4 +15,8 @@ class EndPoints {
     url: "/user/profile",
     method: HTTPMethod.GET,
   );
+  static Endpoint grantGoogleAccess = Endpoint(
+      url: "/authenticate/google/send-request",
+      method: HTTPMethod.POST,
+      dtoNullable: true);
 }

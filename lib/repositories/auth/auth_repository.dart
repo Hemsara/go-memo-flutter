@@ -20,4 +20,16 @@ class AuthRepository extends IAuthRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<Uri> grantGoogleAccess() async {
+    try {
+      ApiResponse response =
+          await _apiService.sendRequest(endpoint: EndPoints.grantGoogleAccess);
+
+      return Uri.parse(response.data["data"]["google"]);
+    } catch (err) {
+      rethrow;
+    }
+  }
 }
