@@ -21,6 +21,9 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   http: ^1.2.2
   fluttertoast: ^8.2.5
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.6
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

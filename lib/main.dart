@@ -2,10 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gomemo/bloc/auth/auth_bloc.dart';
+import 'package:gomemo/services/navigator.dart';
 import 'package:gomemo/views/auth/views/login.view.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      navigatorKey: NavigatorHelper.navigatorKey,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.black,
         textTheme: const TextTheme(

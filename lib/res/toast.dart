@@ -22,7 +22,7 @@ class ToastManager {
     Fluttertoast.showToast(
       gravity: ToastGravity.TOP,
       backgroundColor: Colors.white,
-      textColor: Colors.white,
+      textColor: Colors.black,
       msg: message,
     );
   }

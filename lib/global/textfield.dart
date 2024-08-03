@@ -13,7 +13,7 @@ enum TextFieldType {
   url,
 }
 
-class TSLField extends StatefulWidget {
+class InputField extends StatefulWidget {
   final TextEditingController? controller;
   final String? label;
   final String? prefixText;
@@ -21,6 +21,7 @@ class TSLField extends StatefulWidget {
   final String? errorText;
   final int? maxlines;
   final bool isRequired;
+  final bool showPasswordValidations;
 
   final bool disableBorder;
   final double? padding;
@@ -33,12 +34,13 @@ class TSLField extends StatefulWidget {
   final IconData? icon;
   final Function(String)? onChanged;
 
-  const TSLField({
-    Key? key,
+  const InputField({
+    super.key,
     this.disableBorder = false,
     this.controller,
     this.padding,
     this.isRequired = true,
+    this.showPasswordValidations = true,
     this.label,
     this.max,
     this.prefixText,
@@ -50,13 +52,13 @@ class TSLField extends StatefulWidget {
     this.autoFocus = false,
     this.maxlines,
     this.errorText,
-  }) : super(key: key);
+  });
 
   @override
-  State<TSLField> createState() => _TSLFieldState();
+  State<InputField> createState() => _InputFieldState();
 }
 
-class _TSLFieldState extends State<TSLField> {
+class _InputFieldState extends State<InputField> {
   late bool obscured;
 
   @override
@@ -129,7 +131,8 @@ class _TSLFieldState extends State<TSLField> {
                         'Please enter ${widget.label ?? "this field"}';
                   }
                 }
-                if (widget.textFieldType == TextFieldType.password) {
+                if (widget.textFieldType == TextFieldType.password &&
+                    widget.showPasswordValidations) {
                   if (value == null || value.isEmpty) {
                     return "";
                   }

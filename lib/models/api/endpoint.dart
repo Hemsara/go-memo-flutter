@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:gomemo/models/api/qparam.dart';
 
 import 'dto.dart';
@@ -16,7 +14,6 @@ class Endpoint<T extends DTO> {
 
   final HTTPMethod method;
   List<QParam>? queryParameter;
-  List<MultiPartImageFile>? images;
 
   final bool isProtected;
   T? dto;
@@ -30,7 +27,6 @@ class Endpoint<T extends DTO> {
     this.queryParameter,
     this.isProtected = true,
     this.dto,
-    this.images,
     this.dtoNullable = false,
   });
 
@@ -43,7 +39,6 @@ class Endpoint<T extends DTO> {
       queryParameter: queryParameter,
       isProtected: isProtected,
       dto: dto ?? dto,
-      images: images,
       dtoNullable: dtoNullable,
     );
   }
@@ -57,7 +52,6 @@ class Endpoint<T extends DTO> {
       queryParameter: queryParameter,
       isProtected: isProtected,
       dto: dto ?? this.dto,
-      images: images,
       dtoNullable: dtoNullable,
     );
   }
@@ -83,29 +77,9 @@ class Endpoint<T extends DTO> {
     }
   }
 
-  Endpoint<T> copyWithImages(List<MultiPartImageFile> newImages) {
-    return Endpoint<T>(
-      url: url,
-      description: description,
-      method: method,
-      queryParameter: queryParameter,
-      images: newImages,
-      isProtected: isProtected,
-      dto: dto,
-      dtoNullable: dtoNullable,
-    );
-  }
-
   void checkDTO() {
     if (method == HTTPMethod.POST && !dtoNullable && dto == null) {
       throw ApiError(message: "DTO is not set for the endpoint.");
     }
   }
-}
-
-class MultiPartImageFile {
-  final File file;
-  final String key;
-
-  MultiPartImageFile({required this.file, required this.key});
 }

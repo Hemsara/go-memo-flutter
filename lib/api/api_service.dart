@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -15,93 +14,6 @@ import 'base_api_service.dart';
 import 'endpoints.dart';
 
 class ApiService extends BaseApiService {
-  Future<ApiResponse> sendMultiPartRequest({
-    required Endpoint endpoint,
-  }) async {
-    try {
-      var uri = Uri.parse("${EndPoints.baseURL}${endpoint.url}");
-      if (endpoint.queryParameter != null) {
-        List<Map<String, dynamic>> queryParams =
-            endpoint.queryParameter!.map((e) => e.toMap()).toList();
-
-        uri = Uri.parse('$uri')
-            .replace(queryParameters: _flattenMapList(queryParams));
-      }
-
-      var request = http.MultipartRequest('POST', uri)
-        ..headers.addAll(await getHeaders(endpoint.isProtected));
-
-      // Add fields from data map
-      if (endpoint.dto != null) {
-        log("adding fields ${endpoint.dto!.toMap()}");
-        Map<String, dynamic> dtoMap = endpoint.dto!.toMap();
-        Map<String, String> stringDtoMap =
-            dtoMap.map((key, value) => MapEntry(key, value.toString()));
-
-        request.fields.addAll(stringDtoMap);
-        log(stringDtoMap.toString());
-      }
-
-      // Add images
-      if (endpoint.images != null) {
-        log("adding images");
-
-        for (var i = 0; i < endpoint.images!.length; i++) {
-          var file = endpoint.images![i].file;
-          var stream = http.ByteStream(file.openRead());
-          var length = await file.length();
-
-          var multipartFile = http.MultipartFile(
-            endpoint.images![i].key,
-            stream,
-            length,
-            filename: file.path.split("/").last,
-          );
-          log("addded ${multipartFile.field}");
-
-          request.files.add(multipartFile);
-        }
-      }
-
-      debugPrint("=======");
-      debugPrint("🗣️ Sending ${endpoint.getHTTPMethod()} request to $uri");
-      var response = await request.send();
-      var resData = await response.stream.bytesToString();
-
-      debugPrint("🗣️ Status code: ${response.statusCode}");
-      debugPrint("🗣️ Body: $resData");
-      debugPrint("=======");
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // Successful response
-        return ApiResponse(
-            success: true,
-            status: RequestStatus.success,
-            data: (jsonDecode(resData) is List)
-                ? {'data': jsonDecode(resData)}
-                : jsonDecode(resData));
-      }
-
-      // Failed response
-      String err =
-          (jsonDecode(resData)['message'] ?? jsonDecode(resData)['error']);
-
-      throw ApiError(message: err);
-    } on SocketException {
-      throw ApiError(message: "Unable to connect to the server");
-    } on TimeoutException {
-      throw ApiError(message: 'The request is timed out');
-    } catch (e) {
-      debugPrint(e.runtimeType.toString());
-      debugPrint(
-          'An error thrown : ${e.runtimeType == ApiError ? (e as ApiError).message : e.toString()}');
-      if (e.runtimeType == ApiError) {
-        rethrow;
-      }
-      throw ApiError(message: "Something went wrong");
-    }
-  }
-
   // Send an HTTP request and handle the response
   Future<ApiResponse> sendRequest({
     required Endpoint endpoint,
