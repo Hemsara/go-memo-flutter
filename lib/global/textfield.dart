@@ -215,7 +215,7 @@ class _InputFieldState extends State<InputField> {
                 focusedBorder: widget.disableBorder
                     ? InputBorder.none
                     : OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: const BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.circular(
                           AppDimensions.buttonRadiusSmall,
                         ),

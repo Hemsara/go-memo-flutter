@@ -11,4 +11,8 @@ class EndPoints {
     method: HTTPMethod.POST,
     isProtected: false,
   );
+  static Endpoint<LoginDTO> profile = Endpoint(
+    url: "/user/profile",
+    method: HTTPMethod.GET,
+  );
 }

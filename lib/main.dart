@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gomemo/bloc/auth/auth_bloc.dart';
+import 'package:gomemo/bloc/calendar/calendar_bloc.dart';
+import 'package:gomemo/bloc/user/user_bloc.dart';
 import 'package:gomemo/services/navigator.dart';
-import 'package:gomemo/views/auth/views/login.view.dart';
+import 'package:gomemo/views/base.dart';
 
 void main() {
   runApp(
@@ -13,6 +15,12 @@ void main() {
       providers: [
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
+        ),
+        BlocProvider<CalendarBloc>(
+          create: (context) => CalendarBloc(),
+        ),
+        BlocProvider<UserBloc>(
+          create: (context) => UserBloc(),
         ),
       ],
       child: const MyApp(),
@@ -46,7 +54,7 @@ class MyApp extends StatelessWidget {
         bottom: false,
         child: const AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle.light,
-          child: LoginView(),
+          child: Base(),
         ),
       ),
     );

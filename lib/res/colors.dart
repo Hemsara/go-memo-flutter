@@ -5,7 +5,7 @@ class AppColors {
   static Color neutralColor700 = HexColor.fromHex('1C1C1C');
   static Color neutralColor200 = HexColor.fromHex('1C1C1C');
 
-  static Color primary = Color(0xff7FFA88);
+  static Color primary = const Color(0xff7FFA88);
 }
 
 extension HexColor on Color {

@@ -72,7 +72,7 @@ class _LoginViewState extends State<LoginView> {
                 listener: (context, state) {
                   if (state is AuthSuccess) {
                     ToastManager.showSuccessToast('Login successful');
-                    NavigatorHelper.replaceAll(Base());
+                    NavigatorHelper.replaceAll(const Base());
                   } else if (state is AuthFailure) {
                     ToastManager.showErrorToast('Login Failed: ${state.error}');
                   }
@@ -120,13 +120,13 @@ class Button extends StatelessWidget {
   final double borderRadius;
 
   const Button({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.text,
     this.primary = true,
     this.borderRadius = 8.0,
     this.isLoading = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +142,7 @@ class Button extends StatelessWidget {
         ),
         child: Center(
           child: isLoading
-              ? CupertinoActivityIndicator()
+              ? const CupertinoActivityIndicator()
               : Text(
                   text,
                   style: TextStyle(
